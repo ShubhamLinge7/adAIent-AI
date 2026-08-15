@@ -1,286 +1,323 @@
-# 📚 Documentation Guide
+# 🤖 adAIent
 
-Welcome to adAIent v1.0! Here's what each document covers:
+### AI-Powered Equipment Troubleshooting Assistant
 
----
+**adAIent** is an AI-powered troubleshooting assistant designed to help technicians quickly find relevant information from equipment manuals using a Retrieval-Augmented Generation (RAG) workflow.
 
-## 🚀 Start Here
-
-### **QUICK_ANSWER.md** ⭐ START HERE
-- **For**: Anyone asking "Will it install everything automatically?"
-- **Contains**: Direct answer, scenarios, requirements
-- **Read Time**: 5 minutes
-- **Your Answer**: YES! 100% automatic installation
-
-### **AUTO_INSTALL_SUMMARY.md**
-- **For**: Understanding what gets installed automatically
-- **Contains**: Installation checklist, FAQ, next steps
-- **Read Time**: 3 minutes
-- **Best For**: Quick reference
+Instead of manually searching through large technical manuals, users can interact with adAIent and receive context-aware troubleshooting assistance based on the available equipment documentation.
 
 ---
 
-## 📖 Installation & Setup
+## 🎯 Problem
 
-### **INSTALLATION_GUIDE.md** - Main Installation Manual
-- **For**: IT administrators and deployment teams
-- **Contains**: 
-  - Quick start (PowerShell & Batch)
-  - Automatic installation details
-  - Manual installation option
-  - Offline installation guide
-  - Troubleshooting section
-  - Configuration guide
-  - Post-installation management
-- **Read Time**: 15-20 minutes
-- **Best For**: Complete setup reference
+Technicians often need to search through large equipment manuals to identify faults, procedures, and troubleshooting information.
 
-### **PREREQUISITES.md** - Prerequisites & Requirements
-- **For**: Understanding system requirements
-- **Contains**:
-  - What gets installed automatically
-  - System requirements
-  - Installation requirements
-  - Installation steps explained
-  - Post-installation verification
-  - Advanced configuration
-- **Read Time**: 10 minutes
-- **Best For**: Understanding dependencies
+This can be time-consuming, especially when the required information is buried across multiple pages or documents.
 
-### **INSTALLATION_FLOW.md** - Visual Installation Process
-- **For**: Visual learners
-- **Contains**:
-  - ASCII flowchart of installation
-  - Timeline (first run & subsequent runs)
-  - Directory structure
-  - Error recovery guide
-  - Pre/post installation comparison
-- **Read Time**: 5 minutes
-- **Best For**: Understanding the process visually
+**adAIent aims to reduce this search effort by combining document retrieval with an AI-powered question-answering interface.**
 
 ---
 
-## 📊 Status & Reports
+## 💡 What adAIent Does
 
-### **TEST_REPORT.md** - Test Results & Verification
-- **For**: Validating installation success
-- **Contains**:
-  - 8 test scenarios
-  - Results (all PASSED ✅)
-  - Production ready status
-  - Test coverage details
-- **Read Time**: 5 minutes
-- **Best For**: Confirming system works
+The system provides:
 
-### **DEPLOYMENT_STATUS.md** - Implementation Summary
-- **For**: Project management & stakeholders
-- **Contains**:
-  - Phase completion status
-  - Feature list
-  - Security features
-  - Known issues (none)
-  - Next steps
-- **Read Time**: 5 minutes
-- **Best For**: Executive summary
+* 📚 Manual-based information retrieval
+* 🤖 AI-assisted troubleshooting responses
+* 🔎 Semantic search across equipment documentation
+* 👥 Role-based user access
+* 🔐 Authentication and session management
+* 📋 Audit logging
+* ⏱️ Session timeout and login-attempt protection
+* 🛠️ Automated Windows installation
+* 🖥️ Local deployment using a Windows service
+
+The project also includes installation, deployment, testing, and troubleshooting documentation.
 
 ---
 
-## ⚙️ Installation Scripts
+## 🧠 How It Works
 
-### **install.ps1** - PowerShell Installer (Recommended)
+At a high level, the system follows a RAG-based workflow:
+
+```text
+                 User Question
+                       │
+                       ▼
+              ┌─────────────────┐
+              │  adAIent API    │
+              └────────┬────────┘
+                       │
+                       ▼
+              ┌─────────────────┐
+              │ Query Processing│
+              └────────┬────────┘
+                       │
+                       ▼
+              ┌─────────────────┐
+              │ Document /      │
+              │ Semantic Search │
+              └────────┬────────┘
+                       │
+                       ▼
+              Relevant Manual
+                 Information
+                       │
+                       ▼
+              ┌─────────────────┐
+              │ AI / LLM Layer  │
+              └────────┬────────┘
+                       │
+                       ▼
+              Troubleshooting
+                  Response
+```
+
+The application is structured around separate API, authentication, service, model, and utility components.
+
+---
+
+## 🏗️ Project Structure
+
+```text
+adAIent/
+│
+├── app/
+│   ├── api/
+│   │   ├── backup.py
+│   │   ├── chat.py
+│   │   ├── manuals.py
+│   │   └── troubleshoot.py
+│   │
+│   ├── auth/
+│   │   ├── auth_service.py
+│   │   ├── dependencies.py
+│   │   ├── models.py
+│   │   └── routes.py
+│   │
+│   ├── models/
+│   │   └── schemas.py
+│   │
+│   ├── services/
+│   │   ├── indexer.py
+│   │   ├── llm.py
+│   │   ├── llm_providers.py
+│   │   ├── retriever.py
+│   │   ├── semantic_validator.py
+│   │   ├── session_store.py
+│   │   └── validator.py
+│   │
+│   └── utils/
+│       └── encryption.py
+│
+├── data/
+│   └── manuals/
+│
+├── admin.html
+├── index_adaient.html
+├── login.html
+├── config.py
+├── requirements.txt
+├── install.ps1
+├── install.bat
+└── README.md
+```
+
+> Private deployment data such as authentication databases, encryption keys, manuals, and generated indexes should not be committed to source control.
+
+---
+
+## 🔐 Security & Access Control
+
+adAIent includes several application-level security features:
+
+* Role-based access control
+* Superadmin, admin, and technician roles
+* Authentication and session management
+* 15-minute session timeout
+* Login-attempt rate limiting
+* Audit logging
+* Encryption for sensitive stored data
+
+The project also provides separate installation and deployment documentation for administrators.
+
+**Never commit production credentials, authentication databases, encryption keys, or proprietary manuals to a public repository.**
+
+---
+
+## ⚙️ Installation
+
+adAIent provides automated Windows installation scripts.
+
+### PowerShell — Recommended
+
+Run:
+
 ```powershell
-# How to use:
-# 1. Right-click → Run with PowerShell
-# 2. Select "Run as Administrator"
-# 3. Wait for completion
+.\install.ps1
 ```
 
-**Features**:
-- ✅ Auto-detects & installs Python if missing
-- ✅ Auto-detects & installs Ollama if missing
-- ✅ Auto-pulls LLM model if missing
-- ✅ Installs all dependencies
-- ✅ Creates Windows Service
-- ✅ Configures firewall
-- ✅ Color-coded output
+The installer is designed to:
 
-### **install.bat** - Batch Installer (Alternative)
+* Detect and install Python when required
+* Detect and install Ollama when required
+* Pull the required LLM model when required
+* Install Python dependencies
+* Create the Windows service
+* Configure the required firewall settings
+
+### Batch Installer
+
+Alternatively:
+
 ```cmd
-# How to use:
-# 1. Right-click → Run as Administrator
-# 2. Wait for completion
+install.bat
 ```
 
-**Features**:
-- Similar to PowerShell version
-- Better compatibility on older systems
-- No PowerShell required
+The project also includes:
 
-### **uninstall.bat** - Removal Script
-```cmd
-# How to use:
-# Run in Command Prompt as Administrator
+```text
 uninstall.bat
 ```
 
-**Removes**:
-- Windows Service
-- Application files
-- Firewall rules
-- ⚠️ Does NOT remove Python or Ollama
+for removing the application service and associated configuration.
 
 ---
 
-## 📋 Document Reading Path
+## 🖥️ Accessing the Application
 
-### **Path 1: "Just Tell Me What Happens"** (5 min)
-1. QUICK_ANSWER.md
-2. Done!
+After installation, the application is available locally at:
 
-### **Path 2: "I Need to Install This"** (20 min)
-1. QUICK_ANSWER.md
-2. INSTALLATION_GUIDE.md
-3. Run install.ps1
-
-### **Path 3: "I Need to Understand Everything"** (40 min)
-1. QUICK_ANSWER.md
-2. PREREQUISITES.md
-3. INSTALLATION_FLOW.md
-4. INSTALLATION_GUIDE.md
-5. TEST_REPORT.md
-6. Run install.ps1
-
-### **Path 4: "IT Department Review"** (30 min)
-1. DEPLOYMENT_STATUS.md
-2. PREREQUISITES.md
-3. TEST_REPORT.md
-4. INSTALLATION_GUIDE.md → Troubleshooting section
-
----
-
-## 🎯 Common Questions
-
-**"Will everything install automatically?"**
-→ See: QUICK_ANSWER.md
-
-**"What are the system requirements?"**
-→ See: PREREQUISITES.md
-
-**"What if Python isn't installed?"**
-→ See: PREREQUISITES.md → "What Gets Installed Automatically"
-
-**"What if we don't have internet?"**
-→ See: INSTALLATION_GUIDE.md → "Offline Installation"
-
-**"Is the installation verified?"**
-→ See: TEST_REPORT.md → All 8 tests PASSED
-
-**"What happens after installation?"**
-→ See: AUTO_INSTALL_SUMMARY.md → "Next Steps"
-
-**"How do I troubleshoot issues?"**
-→ See: INSTALLATION_GUIDE.md → "Troubleshooting"
-
----
-
-## ✨ Key Points to Remember
-
-✅ **Everything is automatic**
-- Python auto-installs if needed
-- Ollama auto-installs if needed
-- All dependencies auto-install
-- Service auto-starts on boot
-
-⚠️ **You only need to do this**
-1. Run install.ps1 as Administrator
-2. Wait for completion
-3. Access http://localhost:8000
-4. Use the superadmin credentials shared out-of-band and rotate immediately
-
-📊 **Installation takes**
-- First time: 30-40 minutes (includes downloads)
-- Subsequent: 5-10 minutes (skips downloads)
-- Time varies based on internet speed
-
-🔒 **Security included**
-- Master account protection
-- Session timeout (15 minutes)
-- Role-based access control
-- Encryption of sensitive data
-
----
-
-## 📱 Quick Reference Card
-
+```text
+http://localhost:8000
 ```
-INSTALLATION:
-  Run:     install.ps1 (PowerShell) or install.bat (Command Prompt)
-  As:      Administrator
-  Wait:    30-40 minutes first time
 
-FIRST LOGIN:
-  URL:     http://localhost:8000
-  Use:     Superadmin credentials shared out-of-band (rotate immediately)
+Use the appropriate credentials configured for the deployment.
 
-SERVICE MANAGEMENT:
-  Start:   net start adAIent
-  Stop:    net stop adAIent
-  Status:  sc query adAIent
+**Do not publish deployment credentials in this repository.**
 
-LOGS:
-  Location: C:\adAIent\logs\
-  Files:    stdout.log, stderr.log
+---
 
-SUPPORT:
-  Issues:  See INSTALLATION_GUIDE.md Troubleshooting
-  Config:  Edit C:\adAIent\config.py after install
+## 📋 Documentation
+
+Detailed documentation is included in the repository.
+
+| Document                  | Purpose                                    |
+| ------------------------- | ------------------------------------------ |
+| `QUICK_ANSWER.md`         | Quick installation overview                |
+| `INSTALLATION_GUIDE.md`   | Complete installation and deployment guide |
+| `PREREQUISITES.md`        | System requirements and dependencies       |
+| `INSTALLATION_FLOW.md`    | Installation process and directory flow    |
+| `AUTO_INSTALL_SUMMARY.md` | Automated installation overview            |
+| `TEST_REPORT.md`          | Installation and verification results      |
+| `DEPLOYMENT_STATUS.md`    | Deployment and implementation summary      |
+
+### Recommended reading paths
+
+**New user**
+
+```text
+QUICK_ANSWER.md
+        ↓
+INSTALLATION_GUIDE.md
+```
+
+**Administrator**
+
+```text
+PREREQUISITES.md
+        ↓
+INSTALLATION_GUIDE.md
+        ↓
+TEST_REPORT.md
+```
+
+**Developer**
+
+```text
+README.md
+   ↓
+Application source code
+   ↓
+Installation & deployment documentation
 ```
 
 ---
 
-## 📞 Support Resources
+## 🧪 Testing
 
-If you need help:
+The project includes a dedicated test report covering **8 installation and verification scenarios**, with the current documentation reporting all scenarios as passed.
 
-1. **Read the documentation** (most questions answered here)
-2. **Check troubleshooting** section in INSTALLATION_GUIDE.md
-3. **Check logs** in C:\adAIent\logs\
-4. **Windows Event Viewer** for system-level errors
+See:
 
----
+```text
+TEST_REPORT.md
+```
 
-## 🎓 Learning Path
-
-### Level 1: User
-- Read: QUICK_ANSWER.md
-- Focus: Understanding what gets installed
-
-### Level 2: Administrator  
-- Read: INSTALLATION_GUIDE.md + PREREQUISITES.md
-- Focus: Installing and maintaining the system
-
-### Level 3: Developer
-- Read: All documents + examine application code
-- Focus: Understanding architecture and extending functionality
+for the detailed results.
 
 ---
 
-## Document Versions
+## 🛠️ Technology Areas
 
-| Document | Version | Updated | Status |
-|----------|---------|---------|--------|
-| QUICK_ANSWER.md | 1.0 | Jan 24, 2026 | ✅ Current |
-| INSTALLATION_GUIDE.md | 1.0 | Jan 24, 2026 | ✅ Current |
-| PREREQUISITES.md | 1.0 | Jan 24, 2026 | ✅ Current |
-| INSTALLATION_FLOW.md | 1.0 | Jan 24, 2026 | ✅ Current |
-| AUTO_INSTALL_SUMMARY.md | 1.0 | Jan 24, 2026 | ✅ Current |
-| TEST_REPORT.md | 1.0 | Jan 24, 2026 | ✅ Current |
-| DEPLOYMENT_STATUS.md | 1.0 | Jan 24, 2026 | ✅ Current |
+The project is built around:
+
+* **Python**
+* **FastAPI / API backend**
+* **SQLite**
+* **RAG-based document retrieval**
+* **Semantic search**
+* **LLM integration**
+* **HTML/CSS/JavaScript frontend**
+* **Windows PowerShell / Batch automation**
+* **Windows Service deployment**
 
 ---
 
-## 🎉 You're All Set!
+## 🚀 Current Version
 
-Everything you need to install and manage adAIent is in this documentation package.
+**adAIent v1.0**
 
-**Next Step**: Read QUICK_ANSWER.md to get started! 🚀
+The repository currently contains the application source code together with installation, deployment, testing, and troubleshooting documentation.
+
+---
+
+## ⚠️ Deployment & Security Notice
+
+This project is intended for controlled/local deployment.
+
+Before deploying in a real environment:
+
+1. Configure secure credentials.
+2. Keep authentication databases outside source control.
+3. Keep encryption keys outside source control.
+4. Do not commit proprietary equipment manuals.
+5. Do not commit generated indexes containing proprietary information.
+6. Review firewall and network exposure.
+7. Rotate initial/default credentials before production use.
+
+---
+
+## 📌 Project Documentation
+
+For complete deployment information, start with:
+
+```text
+QUICK_ANSWER.md
+```
+
+Then continue with:
+
+```text
+INSTALLATION_GUIDE.md
+PREREQUISITES.md
+TEST_REPORT.md
+```
+
+---
+
+## 👨‍💻 Project
+
+**adAIent — AI-Powered Equipment Troubleshooting Assistant**
+
+Built as an engineering project focused on applying AI, RAG, document retrieval, authentication, and automated deployment to industrial troubleshooting workflows.
