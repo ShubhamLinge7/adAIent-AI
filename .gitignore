@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Encryption keys / certificates
+*.key
+*.pem
+*.crt
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# adAIent private data
+data/auth.db
+data/encryption.key
+
+# RAG generated data
+data/indexes/*
+!data/indexes/.gitkeep
+
+# Proprietary manuals
+data/manuals/*
+!data/manuals/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# VS Code
+.vscode/
+
+# Other IDE files
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
